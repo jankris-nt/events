@@ -1,0 +1,24 @@
+[2021-03-24T17:18:09.509+0000][168][gc] Using G1
+[2021-03-24T17:18:09.525+0000][168][gc,init] Version: 15+36-1562 (release)
+[2021-03-24T17:18:09.525+0000][168][gc,init] CPUs: 8 total, 8 available
+[2021-03-24T17:18:09.525+0000][168][gc,init] Memory: 7493M
+[2021-03-24T17:18:09.525+0000][168][gc,init] Large Page Support: Disabled
+[2021-03-24T17:18:09.525+0000][168][gc,init] NUMA Support: Disabled
+[2021-03-24T17:18:09.525+0000][168][gc,init] Compressed Oops: Enabled (32-bit)
+[2021-03-24T17:18:09.525+0000][168][gc,init] Heap Region Size: 1M
+[2021-03-24T17:18:09.525+0000][168][gc,init] Heap Min Capacity: 2G
+[2021-03-24T17:18:09.525+0000][168][gc,init] Heap Initial Capacity: 2G
+[2021-03-24T17:18:09.525+0000][168][gc,init] Heap Max Capacity: 2G
+[2021-03-24T17:18:09.525+0000][168][gc,init] Pre-touch: Disabled
+[2021-03-24T17:18:09.525+0000][168][gc,init] Parallel Workers: 8
+[2021-03-24T17:18:09.525+0000][168][gc,init] Concurrent Workers: 2
+[2021-03-24T17:18:09.525+0000][168][gc,init] Concurrent Refinement Workers: 8
+[2021-03-24T17:18:09.525+0000][168][gc,init] Periodic GC: Disabled
+[2021-03-24T17:18:09.525+0000][168][gc,metaspace] CDS disabled.
+[2021-03-24T17:18:09.525+0000][168][gc,metaspace] Compressed class space mapped at: 0x0000000100000000-0x0000000140000000, size: 1073741824
+[2021-03-24T17:18:09.525+0000][168][gc,metaspace] Narrow klass base: 0x0000000000000000, Narrow klass shift: 3, Narrow klass range: 0x140000000
+[2021-03-24T17:18:09.630+0000][168][gc,heap,exit] Heap
+[2021-03-24T17:18:09.630+0000][168][gc,heap,exit]  garbage-first heap   total 2097152K, used 1024K [0x0000000080000000, 0x0000000100000000)
+[2021-03-24T17:18:09.630+0000][168][gc,heap,exit]   region size 1024K, 2 young (2048K), 0 survivors (0K)
+[2021-03-24T17:18:09.630+0000][168][gc,heap,exit]  Metaspace       used 3402K, capacity 4480K, committed 4480K, reserved 1056768K
+[2021-03-24T17:18:09.630+0000][168][gc,heap,exit]   class space    used 278K, capacity 384K, committed 384K, reserved 1048576K

@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+      context: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elastic
+    environment:
+      - "discovery.type=single-node"
+      - node.name=elasticsearch
+      - cluster.name=elasticsearch
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+
+    volumes:
+      - ./mounts/el_data:/usr/share/elasticsearch/data
+      - ./mounts/el_logs:/usr/share/elasticsearch/logs
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: rf-app
+    entrypoint: ./docker-entrypoint.sh elasticsearch 9200
+    restart: always
+    depends_on:
+      - elasticsearch
+    ports: 
+      - "8080:8080"
+    networks:
+      - elastic
+    volumes:
+      - ${APPLICATION_ROOT_FOLDER}:/project
+      - ${HOME}/.m2:/home/app/.m2
+    
+      
+networks:
+  elastic:
+    driver: bridge  
