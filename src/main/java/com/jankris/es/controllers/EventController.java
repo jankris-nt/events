@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jankris.es.models.Event;
 import com.jankris.es.models.Person;
 import com.jankris.es.repositories.EventRepository;
-import com.jankris.es.repositories.PersonRepository;
 // import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -28,12 +27,10 @@ import com.jankris.es.repositories.PersonRepository;
 // @Slf4j
 public class EventController {
 	private  EventRepository eventRepo;
-	private  PersonRepository perRepo;
 	
 	@Autowired
-	public EventController(EventRepository eventRepo, PersonRepository perRepo) { 
+	public EventController(EventRepository eventRepo) { 
 	    this.eventRepo = eventRepo;
-	    this.perRepo = perRepo;
 	}
 
 	@RequestMapping(value = "/event", method = RequestMethod.POST, produces="application/json")
@@ -41,7 +38,7 @@ public class EventController {
 		Iterable<Event> tmpEventList = eventRepo.findAll();
 		for (Event e : tmpEventList) {
 		    if (e.getName().equals(event.getName())) {
-		    	return new ResponseEntity<>("Event name already exist", HttpStatus.OK);
+		    	return new ResponseEntity<>("Event name already exist", HttpStatus.NOT_FOUND);
 		    }
 		}
 		eventRepo.save(event);
@@ -52,7 +49,7 @@ public class EventController {
 	public ResponseEntity<Object> statusEvent(@PathVariable("id") String id) {
 		Optional<Event> tmpEvent = eventRepo.findById(id);
 		if (! tmpEvent.isPresent()) {
-			return new ResponseEntity<>("Event not found", HttpStatus.OK);
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(eventRepo.findById(id).get().getStatus(), HttpStatus.OK);
 	}
@@ -61,7 +58,7 @@ public class EventController {
 	public ResponseEntity<Object> freeSeats(@PathVariable("id") String id) {
 		Optional<Event> tmpEvent = eventRepo.findById(id);
 		if (! tmpEvent.isPresent()) {
-			return new ResponseEntity<>("Event not found", HttpStatus.OK);
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 		}
 		tmpEvent.get().getSeats();		
 		Optional<Object> tmpPersons = tmpEvent.map(event -> {
@@ -82,7 +79,7 @@ public class EventController {
 			@PathVariable("newStatus") String newStatus) {
 		Optional<Event> existEvent = eventRepo.findById(id);
 		if (! existEvent.isPresent()) {
-			return new ResponseEntity<>("Event not found", HttpStatus.OK);
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 		}
 		existEvent.map(event -> {
 	        event.setStatus(newStatus);
@@ -105,7 +102,7 @@ public class EventController {
 	public ResponseEntity<Object> deleteEvent(@PathVariable("id") String id) {
 		Optional<Event> tmpEvent = eventRepo.findById(id);
 		if (! tmpEvent.isPresent()) {
-			return new ResponseEntity<>("Event not found", HttpStatus.OK);
+			return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 		}
 		eventRepo.deleteById(id);
 		return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
@@ -127,6 +124,12 @@ public class EventController {
 			if (existEvent.get().getSeats() > 0) {
 				@SuppressWarnings("unchecked")
 				List<Person> lstPersons = (List<Person>) existPersons.get();
+
+				for (Person p : lstPersons) {
+				    if (p.getName().equals(newPerson.getName())) {
+				    	return new ResponseEntity<>("Person name already exist", HttpStatus.NOT_FOUND);
+				    }
+				}
 				if (lstPersons.size() < existEvent.get().getSeats()) {
 					lstPersons.add(newPerson);
 					existEvent.map(event -> {
@@ -135,10 +138,10 @@ public class EventController {
 					});
 					return new ResponseEntity<>("Person added successfully", HttpStatus.OK);
 				} else {
-					return new ResponseEntity<>("FULL!", HttpStatus.NOT_ACCEPTABLE);
+					return new ResponseEntity<>("FULL!", HttpStatus.NOT_FOUND);
 				}
 			} else {
-				return new ResponseEntity<>("No seats", HttpStatus.OK);
+				return new ResponseEntity<>("No seats", HttpStatus.NOT_FOUND);
 			}					
 		} else {
 			List<Person> renewPersonList = new ArrayList<>();
@@ -189,7 +192,7 @@ public class EventController {
 		if (existPerson) {
 			return new ResponseEntity<>("Person removed successfully", HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Person not exist", HttpStatus.OK);
+			return new ResponseEntity<>("Person not exist", HttpStatus.NOT_FOUND);
 		}
 		
 	}	
