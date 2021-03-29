@@ -34,6 +34,7 @@ build/
 
 .attach_pid*
 */*/nodes/*
+!*/*/nodes/tmp.txt
 mounts/el_logs/*
 !mounts/el_logs/gc.log
 
