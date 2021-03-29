@@ -33,6 +33,7 @@ build/
 .vscode/
 
 .attach_pid*
-mounts/el_data/nodes/*
+*/*/nodes/*
 mounts/el_logs/*
+!mounts/el_logs/gc.log
 
