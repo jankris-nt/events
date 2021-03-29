@@ -35,5 +35,4 @@ build/
 .attach_pid*
 mounts/el_data/nodes/
 mounts/el_logs/
-!mounts/el_data/nodes
-!mounts/el_logs
+
